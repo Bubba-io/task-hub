@@ -3,6 +3,9 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/instance_manager.dart';
+import 'package:task_hub/modules/home/controller/home_cubit.dart';
+import 'package:task_hub/modules/task_creation/controller/task_creation_cubit.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -27,7 +30,9 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
 
   Bloc.observer = const AppBlocObserver();
 
-  // Add cross-flavor configuration here
+  Get
+    ..put(HomeCubit())
+    ..put(TaskCreationCubit());
 
   runApp(await builder());
 }
