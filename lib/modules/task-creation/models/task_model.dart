@@ -5,6 +5,7 @@ import 'package:task_hub/core/helpers/helpers.dart';
 class TaskModel {
   TaskModel._({
     required this.id,
+    required this.title,
     required this.description,
     required this.resolved,
     required this.priority,
@@ -12,6 +13,7 @@ class TaskModel {
   });
 
   factory TaskModel.create({
+    required String title,
     required String description,
     required int priority,
     required DateTime date,
@@ -19,6 +21,7 @@ class TaskModel {
   }) {
     return TaskModel._(
       id: idGenerator(),
+      title: title,
       description: description,
       resolved: resolved,
       priority: priority,
@@ -29,6 +32,7 @@ class TaskModel {
   factory TaskModel.fromJson(Map<String, dynamic> json) {
     return TaskModel._(
       id: json['id'] as String,
+      title: json['title'] as String,
       description: json['description'] as String,
       resolved: json['resolved'] as bool,
       priority: json['priority'] as int,
@@ -43,6 +47,7 @@ class TaskModel {
   }
 
   final String id;
+  final String title;
   final String description;
   final bool resolved;
   final int priority;
@@ -50,12 +55,14 @@ class TaskModel {
 
   TaskModel copyWith({
     String? description,
+    String? title,
     int? priority,
     DateTime? date,
     bool? resolved,
   }) {
     return TaskModel._(
       id: id,
+      title: title ?? this.title,
       description: description ?? this.description,
       resolved: resolved ?? this.resolved,
       priority: priority ?? this.priority,
@@ -66,6 +73,7 @@ class TaskModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'title': title,
       'description': description,
       'resolved': resolved,
       'priority': priority,

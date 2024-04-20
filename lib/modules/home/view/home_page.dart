@@ -11,14 +11,6 @@ class HomePage extends StatelessWidget {
     return Column(
       children: [
         Text(l10n.homeTitle),
-        GestureDetector(
-          onTap: () async {},
-          child: Container(
-            height: 100,
-            width: 100,
-            color: Colors.purple,
-          ),
-        ),
       ],
     );
   }

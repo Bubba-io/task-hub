@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:task_hub/core/enums/enums.dart';
+import 'package:task_hub/core/styles/styles.dart';
+import 'package:task_hub/modules/task-creation/view/widgets/task_creation_modal.dart';
 
 class FloatingActionButtonCustom extends StatelessWidget {
   const FloatingActionButtonCustom({super.key});
@@ -11,57 +13,12 @@ class FloatingActionButtonCustom extends StatelessWidget {
       padding: const EdgeInsets.only(top: EnumPaddings.x3),
       child: Material(
         shape: const CircleBorder(),
-        color: Colors.red,
+        color: AppColors.black.withOpacity(0.9),
         child: InkWell(
-          onTap: () {
-            showModalBottomSheet<void>(
-              context: context,
-              builder: (BuildContext context) {
-                return Padding(
-                  padding: const EdgeInsets.only(
-                    top: EnumPaddings.x3,
-                    bottom: EnumPaddings.x5,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Container(
-                        width: 80,
-                        height: 5,
-                        decoration: BoxDecoration(
-                          color: Colors.black87,
-                          borderRadius: BorderRadius.circular(
-                            EnumPaddings.x1,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: EnumPaddings.x3),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: EnumPaddings.x4,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Row(
-                              children: [
-                                Text('Modal BottomSheet'),
-                              ],
-                            ),
-                            ElevatedButton(
-                              child: const Text('Close BottomSheet'),
-                              onPressed: () => Navigator.pop(context),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            );
+          onTap: () async {
+            await showTaskCreationModal(context);
           },
-          splashColor: Colors.amber,
+          splashColor: AppColors.black.withOpacity(0.9),
           customBorder: const CircleBorder(),
           child: const SizedBox(
             height: 70,
@@ -69,7 +26,7 @@ class FloatingActionButtonCustom extends StatelessWidget {
             child: Center(
               child: Icon(
                 CupertinoIcons.add,
-                color: Colors.black,
+                color: AppColors.white,
                 size: 42,
               ),
             ),
