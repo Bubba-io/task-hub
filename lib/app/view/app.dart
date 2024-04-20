@@ -9,9 +9,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        ),
+        fontFamily: 'Roboto',
         useMaterial3: true,
       ),
       locale: const Locale('pt'),
