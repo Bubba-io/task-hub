@@ -1,16 +1,16 @@
-part of 'task_creation_cubit.dart';
+part of 'calendar_cubit.dart';
 
-class TaskCreationState extends Equatable {
-  const TaskCreationState({
+class CalendarState extends Equatable {
+  const CalendarState({
     this.testText = '',
   });
 
   final String testText;
 
-  TaskCreationState copyWith({
+  CalendarState copyWith({
     String? testText,
   }) {
-    return TaskCreationState(
+    return CalendarState(
       testText: testText ?? this.testText,
     );
   }

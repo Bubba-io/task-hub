@@ -1,4 +1,6 @@
 class EnumRoutes {
-  static String home = '/';
-  static String taskCreation = '/task-creation';
+  EnumRoutes._();
+
+  static const String home = '/';
+  static const String calendar = '/calendar';
 }
