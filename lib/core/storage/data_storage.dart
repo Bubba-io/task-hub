@@ -9,6 +9,8 @@ class DataStorage {
 
   Future<String?> read(String key) => _instance.read(key: key);
 
+  Future<Map<String, String>> readAll() => _instance.readAll();
+
   Future<void> remove(String key) => _instance.delete(key: key);
 
   Future<void> write(String key, String value) =>
