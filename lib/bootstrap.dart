@@ -5,7 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/instance_manager.dart';
 import 'package:task_hub/modules/calendar/controller/calendar_cubit.dart';
-import 'package:task_hub/modules/home/controller/home_cubit.dart';
+import 'package:task_hub/modules/task-creation/controller/task_manager_cubit.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -31,7 +31,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   Bloc.observer = const AppBlocObserver();
 
   Get
-    ..put(HomeCubit())
+    ..put(TaskManagerCubit())
     ..put(CalendarCubit());
 
   runApp(await builder());

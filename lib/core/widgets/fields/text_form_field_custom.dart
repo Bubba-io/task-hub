@@ -3,15 +3,19 @@ import 'package:task_hub/core/enums/enums.dart';
 
 class TextFormFieldCustom extends StatelessWidget {
   const TextFormFieldCustom({
+    required this.controller,
     this.label,
     this.validator,
+    this.onChanged,
     this.requiredInput = false,
     this.enabled = true,
     super.key,
   });
 
+  final TextEditingController controller;
   final String? label;
   final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
   final bool requiredInput;
   final bool enabled;
 
@@ -30,11 +34,13 @@ class TextFormFieldCustom extends StatelessWidget {
         ],
         TextFormField(
           enabled: enabled,
+          controller: controller,
+          onChanged: onChanged,
           validator: validator ??
               (requiredInput
                   ? (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Campo obrigatório';
+                        return 'error';
                       }
 
                       return null;
@@ -49,6 +55,11 @@ class TextFormFieldCustom extends StatelessWidget {
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+            errorMaxLines: 1,
+            errorStyle: TextStyle(
+              color: Colors.transparent,
+              fontSize: 0,
             ),
           ),
         ),

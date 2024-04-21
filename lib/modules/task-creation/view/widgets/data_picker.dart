@@ -1,13 +1,23 @@
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:task_hub/core/enums/enums.dart';
 import 'package:task_hub/core/widgets/dialogs/dialogs.dart';
 import 'package:task_hub/core/widgets/fields/fileds.dart';
+import 'package:task_hub/modules/task-creation/controller/task_manager_cubit.dart';
 
 class DataPicker extends StatelessWidget {
   const DataPicker({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<TaskManagerCubit>();
+
+    controller.date.text = DateFormat('dd-MM-yyyy').format(DateTime.now());
+    controller.hour.text = DateFormat('HH:mm').format(DateTime.now());
+
+    controller.checkButtonState();
+
     return Row(
       children: [
         Expanded(
@@ -19,15 +29,21 @@ class DataPicker extends StatelessWidget {
                   mode: CupertinoDatePickerMode.date,
                   use24hFormat: true,
                   showDayOfWeek: true,
-                  onDateTimeChanged: (DateTime newDate) {},
+                  onDateTimeChanged: (DateTime newDate) {
+                    controller.date.text =
+                        DateFormat('dd-MM-yyyy').format(newDate);
+                    controller.checkButtonState();
+                  },
                 ),
                 context: context,
               );
             },
-            child: const TextFormFieldCustom(
-              label: 'Data',
-              requiredInput: true,
-              enabled: false,
+            child: AbsorbPointer(
+              child: TextFormFieldCustom(
+                label: 'Data',
+                controller: controller.date,
+                requiredInput: true,
+              ),
             ),
           ),
         ),
@@ -39,14 +55,19 @@ class DataPicker extends StatelessWidget {
                 initialDateTime: DateTime.now(),
                 mode: CupertinoDatePickerMode.time,
                 use24hFormat: true,
-                onDateTimeChanged: (DateTime newTime) {},
+                onDateTimeChanged: (DateTime newTime) {
+                  controller.hour.text = DateFormat('HH:mm').format(newTime);
+                  controller.checkButtonState();
+                },
               ),
               context: context,
             ),
-            child: const TextFormFieldCustom(
-              label: 'Hora',
-              requiredInput: true,
-              enabled: false,
+            child: AbsorbPointer(
+              child: TextFormFieldCustom(
+                label: 'Hora',
+                controller: controller.hour,
+                requiredInput: true,
+              ),
             ),
           ),
         ),
