@@ -4,24 +4,25 @@ class TaskManagerState extends Equatable {
   const TaskManagerState({
     required this.tasks,
     this.selectedID = '',
-    this.selectedIndex = -1,
     this.buttonDisabled = true,
+    this.tabSelected = 0,
   });
 
   final bool buttonDisabled;
+  final int tabSelected;
   final String selectedID;
-  final int selectedIndex;
   final List<TaskModel> tasks;
 
   TaskManagerState copyWith({
     bool? buttonDisabled,
+    int? tabSelected,
     String? selectedID,
     int? selectedIndex,
     List<TaskModel>? tasks,
   }) {
     return TaskManagerState(
       selectedID: selectedID ?? this.selectedID,
-      selectedIndex: selectedIndex ?? this.selectedIndex,
+      tabSelected: tabSelected ?? this.tabSelected,
       buttonDisabled: buttonDisabled ?? this.buttonDisabled,
       tasks: tasks ?? this.tasks,
     );
@@ -30,8 +31,8 @@ class TaskManagerState extends Equatable {
   @override
   List<Object> get props => [
         selectedID,
-        selectedIndex,
         buttonDisabled,
+        tabSelected,
         tasks,
       ];
 }

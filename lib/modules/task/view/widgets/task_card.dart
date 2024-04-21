@@ -14,11 +14,13 @@ class TaskCard extends StatelessWidget {
   const TaskCard({
     required this.task,
     required this.index,
+    required this.resolved,
     super.key,
   });
 
   final TaskModel task;
   final int index;
+  final bool resolved;
 
   @override
   Widget build(BuildContext context) {
@@ -96,17 +98,19 @@ class TaskCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: EnumPaddings.x2),
-                IconButton(
-                  onPressed: () {
-                    controller.loadTextEC(task, index);
+                if (!resolved) ...[
+                  const SizedBox(width: EnumPaddings.x2),
+                  IconButton(
+                    onPressed: () {
+                      controller.loadTextEC(task, index);
 
-                    showTaskManagerModal(context, ManagerModal.edition)
-                        .then((value) => controller.reset());
-                  },
-                  icon: const Icon(Icons.edit),
-                  iconSize: 28,
-                ),
+                      showTaskManagerModal(context, ManagerModal.edition)
+                          .then((value) => controller.reset());
+                    },
+                    icon: const Icon(Icons.edit),
+                    iconSize: 28,
+                  ),
+                ]
               ],
             ),
           ),

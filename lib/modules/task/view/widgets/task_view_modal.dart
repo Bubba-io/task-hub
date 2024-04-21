@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/instance_manager.dart';
@@ -5,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:task_hub/core/enums/enums.dart';
 import 'package:task_hub/core/styles/styles.dart';
 import 'package:task_hub/core/widgets/buttons/app_primary_button.dart';
+import 'package:task_hub/core/widgets/dialogs/dialogs.dart';
 import 'package:task_hub/modules/task/controller/task_manager_cubit.dart';
 import 'package:task_hub/modules/task/models/models.dart';
 import 'package:task_hub/modules/task/view/widgets/animations/task_done_animation.dart';
@@ -54,6 +56,30 @@ Future<void> showTaskViewModal(
                             ),
                           ),
                         ),
+                        if (taskModel.resolved) ...[
+                          IconButton(
+                            onPressed: () async {
+                              showAlertDialog(
+                                context: context,
+                                onAccept: () async {
+                                  await controller.deleteTask();
+
+                                  if (context.mounted) {
+                                    context.pop();
+                                  }
+                                },
+                                title: 'Alerta',
+                                content:
+                                    'Tem certeza que deseja excluir a tarefa?',
+                              );
+                            },
+                            iconSize: 26,
+                            icon: const Icon(
+                              CupertinoIcons.trash_fill,
+                              color: AppColors.error,
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                     Row(
@@ -96,20 +122,26 @@ Future<void> showTaskViewModal(
                         ),
                       ),
                     ),
-                    const SizedBox(height: EnumPaddings.x3),
-                    AppPrimaryButton(
-                      label: 'CONCLUIR TAREFA',
-                      onTap: () async {
-                        context.pop();
+                    if (!taskModel.resolved) ...[
+                      const SizedBox(height: EnumPaddings.x3),
+                      AppPrimaryButton(
+                        label: 'CONCLUIR TAREFA',
+                        onTap: () async {
+                          await controller.endTask();
 
-                        await showDialog<Widget>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return const TaskDoneAnimation();
-                          },
-                        );
-                      },
-                    ),
+                          if (context.mounted) {
+                            context.pop();
+
+                            await showDialog<Widget>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return const TaskDoneAnimation();
+                              },
+                            );
+                          }
+                        },
+                      ),
+                    ],
                     const SizedBox(height: EnumPaddings.x6),
                   ],
                 ),

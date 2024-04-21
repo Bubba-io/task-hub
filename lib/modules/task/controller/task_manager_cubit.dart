@@ -49,8 +49,9 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
 
   Future<void> editTask() async {
     final newList = state.tasks;
+    final index = getIndexByID();
 
-    newList[state.selectedIndex] = newList[state.selectedIndex].copyWith(
+    newList[index] = newList[index].copyWith(
       title: title.text,
       description: description.text,
       priority: setPriority(),
@@ -59,18 +60,48 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
 
     await _storage.write(
       state.selectedID,
-      newList[state.selectedIndex].serialize(),
+      newList[index].serialize(),
     );
 
     emit(state.copyWith(tasks: newList));
   }
 
   Future<void> deleteTask() async {
-    final newList = state.tasks..removeAt(state.selectedIndex);
+    final newList = state.tasks..removeAt(getIndexByID());
 
     await _storage.delete(state.selectedID);
 
     emit(state.copyWith(tasks: newList));
+  }
+
+  Future<void> endTask() async {
+    final newList = state.tasks;
+    final index = getIndexByID();
+
+    newList[index] = newList[index].copyWith(resolved: true);
+
+    await _storage.write(
+      state.selectedID,
+      newList[index].serialize(),
+    );
+
+    emit(state.copyWith(tasks: newList));
+  }
+
+  void changeTab() {
+    late int newValue;
+
+    if (state.tabSelected == 0) {
+      newValue = 1;
+    } else {
+      newValue = 0;
+    }
+
+    emit(state.copyWith(tabSelected: newValue));
+  }
+
+  int getIndexByID() {
+    return state.tasks.indexWhere((element) => element.id == state.selectedID);
   }
 
   void setSelectedTask(int index, String id) {
