@@ -17,7 +17,6 @@ class TaskManagerState extends Equatable {
     bool? buttonDisabled,
     int? tabSelected,
     String? selectedID,
-    int? selectedIndex,
     List<TaskModel>? tasks,
   }) {
     return TaskManagerState(

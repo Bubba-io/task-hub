@@ -13,6 +13,7 @@ class TaskModel {
     required this.resolved,
     required this.priority,
     required this.date,
+    required this.resolvedDate,
   });
 
   factory TaskModel.create({
@@ -29,6 +30,7 @@ class TaskModel {
       resolved: resolved,
       priority: priority,
       date: date,
+      resolvedDate: DateTime.now(),
     );
   }
 
@@ -40,6 +42,7 @@ class TaskModel {
       resolved: json['resolved'] as bool,
       priority: json['priority'] as int,
       date: DateTime.parse(json['date'] as String),
+      resolvedDate: DateTime.parse(json['resolvedDate'] as String),
     );
   }
 
@@ -55,9 +58,12 @@ class TaskModel {
   final bool resolved;
   final int priority;
   final DateTime date;
+  final DateTime resolvedDate;
 
   String get onlyDate => DateFormat('dd/MM/yyyy').format(date);
   String get onlyHour => DateFormat('HH:mm').format(date);
+  String get onlyDateResolved => DateFormat('dd/MM/yyyy').format(resolvedDate);
+  String get onlyHourResolved => DateFormat('HH:mm').format(resolvedDate);
 
   String get priorityString {
     switch (priority) {
@@ -90,6 +96,7 @@ class TaskModel {
     String? title,
     int? priority,
     DateTime? date,
+    DateTime? resolvedDate,
     bool? resolved,
   }) {
     return TaskModel._(
@@ -99,6 +106,7 @@ class TaskModel {
       resolved: resolved ?? this.resolved,
       priority: priority ?? this.priority,
       date: date ?? this.date,
+      resolvedDate: resolvedDate ?? this.resolvedDate,
     );
   }
 
@@ -110,6 +118,7 @@ class TaskModel {
       'resolved': resolved,
       'priority': priority,
       'date': date.toString(),
+      'resolvedDate': resolvedDate.toString(),
     };
   }
 

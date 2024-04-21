@@ -78,7 +78,10 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
     final newList = state.tasks;
     final index = getIndexByID();
 
-    newList[index] = newList[index].copyWith(resolved: true);
+    newList[index] = newList[index].copyWith(
+      resolved: true,
+      resolvedDate: DateTime.now(),
+    );
 
     await _storage.write(
       state.selectedID,
@@ -104,16 +107,13 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
     return state.tasks.indexWhere((element) => element.id == state.selectedID);
   }
 
-  void setSelectedTask(int index, String id) {
+  void setSelectedTask(String id) {
     emit(
-      state.copyWith(
-        selectedID: id,
-        selectedIndex: index,
-      ),
+      state.copyWith(selectedID: id),
     );
   }
 
-  void loadTextEC(TaskModel model, int index) {
+  void loadTextEC(TaskModel model) {
     title.text = model.title;
     description.text = model.description;
     date.text = model.date.toString();
@@ -121,10 +121,7 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
     priority.text = model.priorityString;
 
     emit(
-      state.copyWith(
-        selectedID: model.id,
-        selectedIndex: index,
-      ),
+      state.copyWith(selectedID: model.id),
     );
   }
 
@@ -180,11 +177,7 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
     priority.clear();
 
     emit(
-      state.copyWith(
-        buttonDisabled: true,
-        selectedID: '',
-        selectedIndex: -1,
-      ),
+      state.copyWith(buttonDisabled: true, selectedID: ''),
     );
   }
 }

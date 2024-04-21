@@ -13,14 +13,10 @@ import 'package:task_hub/modules/task/view/widgets/task_view_modal.dart';
 class TaskCard extends StatelessWidget {
   const TaskCard({
     required this.task,
-    required this.index,
-    required this.resolved,
     super.key,
   });
 
   final TaskModel task;
-  final int index;
-  final bool resolved;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +26,7 @@ class TaskCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: EnumPaddings.x1),
       child: GestureDetector(
         onTap: () {
-          controller.setSelectedTask(index, task.id);
+          controller.setSelectedTask(task.id);
 
           showTaskViewModal(task, context).then((value) => controller.reset());
         },
@@ -98,11 +94,11 @@ class TaskCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (!resolved) ...[
+                if (!task.resolved) ...[
                   const SizedBox(width: EnumPaddings.x2),
                   IconButton(
                     onPressed: () {
-                      controller.loadTextEC(task, index);
+                      controller.loadTextEC(task);
 
                       showTaskManagerModal(context, ManagerModal.edition)
                           .then((value) => controller.reset());

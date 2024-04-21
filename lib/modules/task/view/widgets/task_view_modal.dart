@@ -95,7 +95,19 @@ Future<void> showTaskViewModal(
                           ),
                         ],
                       ),
-                      const SizedBox(height: EnumPaddings.x2),
+                      if (taskModel.resolved) ...[
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                '''Data conclusão: ${taskModel.onlyDateResolved} - ${taskModel.onlyHourResolved}''',
+                                style: AppTextStyles.subtitle2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                      const SizedBox(height: EnumPaddings.x1),
                       Row(
                         children: [
                           Expanded(
