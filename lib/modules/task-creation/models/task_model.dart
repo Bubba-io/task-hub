@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
 import 'package:task_hub/core/helpers/helpers.dart';
 
 class TaskModel {
@@ -52,6 +53,22 @@ class TaskModel {
   final bool resolved;
   final int priority;
   final DateTime date;
+
+  String get onlyDate => DateFormat('dd/MM/yyyy').format(date);
+  String get onlyHour => DateFormat('HH:mm').format(date);
+
+  String get priorityString {
+    switch (priority) {
+      case 2:
+        return 'Alta';
+      case 1:
+        return 'Média';
+      case 0:
+        return 'Baixa';
+      default:
+        return 'Média';
+    }
+  }
 
   TaskModel copyWith({
     String? description,

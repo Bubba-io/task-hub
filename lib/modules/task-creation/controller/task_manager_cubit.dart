@@ -47,21 +47,54 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
     );
   }
 
+  Future<void> editTask() async {
+    final newList = state.tasks;
+
+    newList[state.selectedIndex] = newList[state.selectedIndex].copyWith(
+      title: title.text,
+      description: description.text,
+      priority: setPriority(),
+      date: convertDate(),
+    );
+
+    await _storage.write(
+      state.selectedID,
+      newList[state.selectedIndex].serialize(),
+    );
+
+    emit(state.copyWith(tasks: newList));
+  }
+
+  void loadTextEC(TaskModel model, int index) {
+    title.text = model.title;
+    description.text = model.description;
+    date.text = model.date.toString();
+    hour.text = model.date.toString();
+    priority.text = model.priorityString;
+
+    emit(
+      state.copyWith(
+        selectedID: model.id,
+        selectedIndex: index,
+      ),
+    );
+  }
+
   int setPriority() {
     switch (priority.text) {
       case 'Alta':
-        return 3;
+        return 2;
       case 'Média':
-        return 2;
-      case 'Baixa':
         return 1;
+      case 'Baixa':
+        return 0;
       default:
-        return 2;
+        return 1;
     }
   }
 
   DateTime convertDate() {
-    final dateParsed = DateFormat('dd-MM-yyyy').parse(date.text);
+    final dateParsed = DateFormat('dd/MM/yyyy').parse(date.text);
     final timeParsed = DateFormat('HH:mm').parse(hour.text);
 
     return DateTime(
@@ -98,6 +131,12 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
     hour.clear();
     priority.clear();
 
-    emit(state.copyWith(buttonDisabled: true));
+    emit(
+      state.copyWith(
+        buttonDisabled: true,
+        selectedID: '',
+        selectedIndex: -1,
+      ),
+    );
   }
 }

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:task_hub/core/enums/enums.dart';
 import 'package:task_hub/core/styles/styles.dart';
 import 'package:task_hub/modules/task-creation/controller/task_manager_cubit.dart';
-import 'package:task_hub/modules/task-creation/view/widgets/task_creation_modal.dart';
+import 'package:task_hub/modules/task-creation/view/widgets/task_manager_modal.dart';
 
 class FloatingActionButtonCustom extends StatelessWidget {
   const FloatingActionButtonCustom({super.key});
@@ -18,7 +18,7 @@ class FloatingActionButtonCustom extends StatelessWidget {
         color: AppColors.black.withOpacity(0.9),
         child: InkWell(
           onTap: () {
-            showTaskCreationModal(context).then((value) {
+            showTaskManagerModal(context, ManagerModal.creation).then((value) {
               Get.find<TaskManagerCubit>().reset();
             });
           },

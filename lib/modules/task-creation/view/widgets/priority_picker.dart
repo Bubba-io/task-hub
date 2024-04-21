@@ -3,9 +3,15 @@ import 'package:get/get.dart';
 import 'package:task_hub/core/widgets/dialogs/dialogs.dart';
 import 'package:task_hub/core/widgets/fields/fileds.dart';
 import 'package:task_hub/modules/task-creation/controller/task_manager_cubit.dart';
+import 'package:task_hub/modules/task-creation/view/widgets/task_manager_modal.dart';
 
 class PriorityPicker extends StatefulWidget {
-  const PriorityPicker({super.key});
+  const PriorityPicker({
+    required this.type,
+    super.key,
+  });
+
+  final ManagerModal type;
 
   @override
   State<PriorityPicker> createState() => _PriorityPickerState();
@@ -15,17 +21,24 @@ class _PriorityPickerState extends State<PriorityPicker> {
   final controller = Get.find<TaskManagerCubit>();
 
   final priorityList = <String>[
-    'Alta',
-    'Média',
     'Baixa',
+    'Média',
+    'Alta',
   ];
 
-  int selectedPriority = 1;
+  late int selectedPriority;
 
   @override
   void initState() {
     super.initState();
-    controller.priority.text = priorityList[1];
+
+    if (widget.type == ManagerModal.creation) {
+      selectedPriority = 1;
+    } else {
+      selectedPriority = priorityList.indexOf(controller.priority.text);
+    }
+
+    controller.priority.text = priorityList[selectedPriority];
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       controller.checkButtonState();

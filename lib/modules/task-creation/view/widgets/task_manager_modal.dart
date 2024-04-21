@@ -10,7 +10,12 @@ import 'package:task_hub/modules/task-creation/controller/task_manager_cubit.dar
 import 'package:task_hub/modules/task-creation/view/widgets/data_picker.dart';
 import 'package:task_hub/modules/task-creation/view/widgets/priority_picker.dart';
 
-Future<void> showTaskCreationModal(BuildContext context) async {
+enum ManagerModal { creation, edition }
+
+Future<void> showTaskManagerModal(
+  BuildContext context,
+  ManagerModal type,
+) async {
   final controller = Get.find<TaskManagerCubit>();
   final formKey = GlobalKey<FormState>();
 
@@ -45,7 +50,9 @@ Future<void> showTaskCreationModal(BuildContext context) async {
                       children: [
                         const SizedBox(width: EnumPaddings.x1Half),
                         Text(
-                          'Criar nova tarefa',
+                          type == ManagerModal.creation
+                              ? 'Nova tarefa'
+                              : 'Editar tarefa',
                           style: AppTextStyles.h6.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -64,7 +71,7 @@ Future<void> showTaskCreationModal(BuildContext context) async {
                             requiredInput: true,
                           ),
                           const SizedBox(height: EnumPaddings.x1),
-                          const DataPicker(),
+                          DataPicker(type: type),
                           const SizedBox(height: EnumPaddings.x1),
                           TextFormFieldCustom(
                             label: 'Descrição',
@@ -73,15 +80,21 @@ Future<void> showTaskCreationModal(BuildContext context) async {
                             requiredInput: true,
                           ),
                           const SizedBox(height: EnumPaddings.x1),
-                          const PriorityPicker(),
+                          PriorityPicker(type: type),
                         ],
                       ),
                     ),
                     const SizedBox(height: EnumPaddings.x3),
                     AppPrimaryButton(
-                      label: 'Criar nova tarefa',
+                      label: type == ManagerModal.creation
+                          ? 'Criar nova tarefa'
+                          : 'Salvar',
                       onTap: () async {
-                        await controller.createTask();
+                        if (type == ManagerModal.creation) {
+                          await controller.createTask();
+                        } else {
+                          await controller.editTask();
+                        }
                         if (context.mounted) {
                           context.pop();
                         }
