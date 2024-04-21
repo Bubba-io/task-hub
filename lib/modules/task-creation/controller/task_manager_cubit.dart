@@ -8,13 +8,27 @@ import 'package:task_hub/modules/task-creation/models/models.dart';
 part 'task_manager_state.dart';
 
 class TaskManagerCubit extends Cubit<TaskManagerState> {
-  TaskManagerCubit() : super(const TaskManagerState());
+  TaskManagerCubit() : super(const TaskManagerState(tasks: []));
 
   final TextEditingController title = TextEditingController();
   final TextEditingController description = TextEditingController();
   final TextEditingController date = TextEditingController();
   final TextEditingController hour = TextEditingController();
   final TextEditingController priority = TextEditingController();
+
+  final _storage = DataStorage();
+
+  Future<void> loadTasks() async {
+    final list = <TaskModel>[];
+
+    final result = await _storage.readAll();
+
+    for (final task in result.values) {
+      list.add(TaskModel.deserialize(task));
+    }
+
+    emit(state.copyWith(tasks: list));
+  }
 
   Future<void> createTask() async {
     final task = TaskModel.create(
@@ -24,7 +38,13 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
       date: convertDate(),
     );
 
-    await DataStorage().write(task.id, task.serialize());
+    await _storage.write(task.id, task.serialize());
+
+    emit(
+      state.copyWith(
+        tasks: [...state.tasks, task],
+      ),
+    );
   }
 
   int setPriority() {
