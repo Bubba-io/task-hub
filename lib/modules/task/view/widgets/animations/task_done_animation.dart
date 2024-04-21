@@ -68,7 +68,7 @@ class _TaskDoneAnimationState extends State<TaskDoneAnimation>
                   textAlign: TextAlign.center,
                   style: AppTextStyles.h4.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: AppColors.black.withOpacity(0.7),
                   ),
                 ),
               ),

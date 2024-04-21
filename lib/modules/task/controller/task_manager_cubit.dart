@@ -91,6 +91,25 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
     emit(state.copyWith(tasks: newList));
   }
 
+  void setFilter(int filter) {
+    emit(state.copyWith(filter: filter));
+  }
+
+  int filter(TaskModel a, TaskModel b) {
+    switch (state.filter) {
+      case 0:
+        return b.date.compareTo(a.date);
+      case 1:
+        return a.date.compareTo(b.date);
+      case 2:
+        return b.priority.compareTo(a.priority);
+      case 3:
+        return a.priority.compareTo(b.priority);
+      default:
+        return a.date.compareTo(b.date);
+    }
+  }
+
   void changeTab() {
     late int newValue;
 
@@ -177,7 +196,10 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
     priority.clear();
 
     emit(
-      state.copyWith(buttonDisabled: true, selectedID: ''),
+      state.copyWith(
+        buttonDisabled: true,
+        selectedID: '',
+      ),
     );
   }
 }

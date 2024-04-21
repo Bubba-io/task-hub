@@ -146,6 +146,7 @@ Future<void> showTaskViewModal(
                               context.pop();
 
                               await showDialog<Widget>(
+                                barrierColor: AppColors.white,
                                 context: context,
                                 builder: (BuildContext context) {
                                   return const TaskDoneAnimation();

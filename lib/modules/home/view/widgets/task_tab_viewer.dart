@@ -1,8 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:task_hub/core/enums/enums.dart';
 import 'package:task_hub/core/styles/styles.dart';
+import 'package:task_hub/modules/home/view/widgets/animations/empty_animation.dart';
+import 'package:task_hub/modules/home/view/widgets/filter_picker.dart';
 import 'package:task_hub/modules/task/controller/task_manager_cubit.dart';
 import 'package:task_hub/modules/task/view/widgets/task_card.dart';
 
@@ -32,9 +36,17 @@ class TaskTabViewer extends StatelessWidget {
               ),
               const SizedBox(height: EnumPaddings.x2),
               if (state.tabSelected == 0) ...[
-                _buildList(state: state, resolved: false),
+                _buildList(
+                  state: state,
+                  resolved: false,
+                  controller: controller,
+                ),
               ] else ...[
-                _buildList(state: state, resolved: true),
+                _buildList(
+                  state: state,
+                  resolved: true,
+                  controller: controller,
+                ),
               ],
             ],
           ),
@@ -43,23 +55,40 @@ class TaskTabViewer extends StatelessWidget {
     );
   }
 
-  Widget _buildList({required TaskManagerState state, required bool resolved}) {
+  Widget _buildList({
+    required TaskManagerState state,
+    required bool resolved,
+    required TaskManagerCubit controller,
+  }) {
     final list = state.tasks
         .where((element) => resolved ? element.resolved : !element.resolved)
-        .toList();
+        .toList()
+      ..sort((a, b) => controller.filter(a, b));
 
-    return Expanded(
-      child: ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (context, index) {
-          final task = list[index];
+    if (list.isEmpty) {
+      return EmptyAnimation(resolved: resolved);
+    } else {
+      return Expanded(
+        child: Column(
+          children: [
+            const FilterPicker(),
+            const SizedBox(height: EnumPaddings.x1),
+            Expanded(
+              child: ListView.builder(
+                itemCount: list.length,
+                itemBuilder: (context, index) {
+                  final task = list[index];
 
-          return TaskCard(
-            task: task,
-          );
-        },
-      ),
-    );
+                  return TaskCard(
+                    task: task,
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   Widget _createButton({
