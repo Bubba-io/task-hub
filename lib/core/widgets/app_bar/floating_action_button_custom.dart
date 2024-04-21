@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_hub/core/enums/enums.dart';
 import 'package:task_hub/core/styles/styles.dart';
-import 'package:task_hub/modules/task-creation/controller/task_manager_cubit.dart';
-import 'package:task_hub/modules/task-creation/view/widgets/task_manager_modal.dart';
+import 'package:task_hub/modules/task/controller/task_manager_cubit.dart';
+import 'package:task_hub/modules/task/view/widgets/task_manager_modal.dart';
 
 class FloatingActionButtonCustom extends StatelessWidget {
   const FloatingActionButtonCustom({super.key});

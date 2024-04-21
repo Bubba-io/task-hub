@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:task_hub/core/storage/storage.dart';
-import 'package:task_hub/modules/task-creation/models/models.dart';
+import 'package:task_hub/modules/task/models/models.dart';
 
 part 'task_manager_state.dart';
 
@@ -71,6 +71,15 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
     await _storage.delete(state.selectedID);
 
     emit(state.copyWith(tasks: newList));
+  }
+
+  void setSelectedTask(int index, String id) {
+    emit(
+      state.copyWith(
+        selectedID: id,
+        selectedIndex: index,
+      ),
+    );
   }
 
   void loadTextEC(TaskModel model, int index) {

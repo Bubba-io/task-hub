@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_hub/core/enums/enums.dart';
 import 'package:task_hub/core/styles/styles.dart';
-import 'package:task_hub/modules/task-creation/controller/task_manager_cubit.dart';
-import 'package:task_hub/modules/task-creation/models/models.dart';
-import 'package:task_hub/modules/task-creation/view/widgets/task_manager_modal.dart';
+import 'package:task_hub/modules/task/controller/task_manager_cubit.dart';
+import 'package:task_hub/modules/task/models/models.dart';
+import 'package:task_hub/modules/task/view/widgets/task_manager_modal.dart';
+import 'package:task_hub/modules/task/view/widgets/task_view_modal.dart';
 
 class TaskCard extends StatelessWidget {
   const TaskCard({
@@ -26,7 +27,11 @@ class TaskCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: EnumPaddings.x1),
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          controller.setSelectedTask(index, task.id);
+
+          showTaskViewModal(task, context).then((value) => controller.reset());
+        },
         child: Container(
           height: 90,
           decoration: BoxDecoration(
@@ -97,9 +102,7 @@ class TaskCard extends StatelessWidget {
                     controller.loadTextEC(task, index);
 
                     showTaskManagerModal(context, ManagerModal.edition)
-                        .then((value) {
-                      Get.find<TaskManagerCubit>().reset();
-                    });
+                        .then((value) => controller.reset());
                   },
                   icon: const Icon(Icons.edit),
                   iconSize: 28,
@@ -117,32 +120,32 @@ class TaskCard extends StatelessWidget {
       case 0:
         return Transform.rotate(
           angle: 90 * pi / 180,
-          child: const Icon(
+          child: Icon(
             Icons.double_arrow_rounded,
-            color: AppColors.deepSkyBlue,
+            color: task.priorityColor,
             size: 42,
           ),
         );
       case 1:
-        return const Icon(
+        return Icon(
           CupertinoIcons.bars,
           size: 42,
-          color: AppColors.warning,
+          color: task.priorityColor,
         );
       case 2:
         return Transform.rotate(
           angle: -90 * pi / 180,
-          child: const Icon(
+          child: Icon(
             Icons.double_arrow_rounded,
-            color: AppColors.error,
+            color: task.priorityColor,
             size: 42,
           ),
         );
       default:
-        return const Icon(
+        return Icon(
           CupertinoIcons.bars,
           size: 42,
-          color: AppColors.warning,
+          color: task.priorityColor,
         );
     }
   }

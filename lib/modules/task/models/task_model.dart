@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:task_hub/core/helpers/helpers.dart';
+import 'package:task_hub/core/styles/styles.dart';
 
 class TaskModel {
   TaskModel._({
@@ -67,6 +69,19 @@ class TaskModel {
         return 'Baixa';
       default:
         return 'Média';
+    }
+  }
+
+  Color get priorityColor {
+    switch (priority) {
+      case 2:
+        return AppColors.error;
+      case 1:
+        return AppColors.warning;
+      case 0:
+        return AppColors.deepSkyBlue;
+      default:
+        return AppColors.warning;
     }
   }
 

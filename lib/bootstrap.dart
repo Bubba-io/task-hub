@@ -5,7 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/instance_manager.dart';
 import 'package:task_hub/modules/calendar/controller/calendar_cubit.dart';
-import 'package:task_hub/modules/task-creation/controller/task_manager_cubit.dart';
+import 'package:task_hub/modules/task/controller/task_manager_cubit.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();

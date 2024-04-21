@@ -8,9 +8,9 @@ import 'package:task_hub/core/styles/styles.dart';
 import 'package:task_hub/core/widgets/buttons/app_primary_button.dart';
 import 'package:task_hub/core/widgets/dialogs/dialogs.dart';
 import 'package:task_hub/core/widgets/fields/text_form_field_custom.dart';
-import 'package:task_hub/modules/task-creation/controller/task_manager_cubit.dart';
-import 'package:task_hub/modules/task-creation/view/widgets/data_picker.dart';
-import 'package:task_hub/modules/task-creation/view/widgets/priority_picker.dart';
+import 'package:task_hub/modules/task/controller/task_manager_cubit.dart';
+import 'package:task_hub/modules/task/view/widgets/data_picker.dart';
+import 'package:task_hub/modules/task/view/widgets/priority_picker.dart';
 
 enum ManagerModal { creation, edition }
 

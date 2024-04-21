@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:task_hub/core/widgets/dialogs/dialogs.dart';
 import 'package:task_hub/core/widgets/fields/fileds.dart';
-import 'package:task_hub/modules/task-creation/controller/task_manager_cubit.dart';
-import 'package:task_hub/modules/task-creation/view/widgets/task_manager_modal.dart';
+import 'package:task_hub/modules/task/controller/task_manager_cubit.dart';
+import 'package:task_hub/modules/task/view/widgets/task_manager_modal.dart';
 
 class PriorityPicker extends StatefulWidget {
   const PriorityPicker({
