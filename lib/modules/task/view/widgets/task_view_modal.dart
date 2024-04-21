@@ -23,130 +23,132 @@ Future<void> showTaskViewModal(
       return BlocBuilder<TaskManagerCubit, TaskManagerState>(
         bloc: controller,
         builder: (context, state) {
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              const SizedBox(height: EnumPaddings.x2Half),
-              Container(
-                width: 80,
-                height: 5,
-                decoration: BoxDecoration(
-                  color: Colors.black87,
-                  borderRadius: BorderRadius.circular(
-                    EnumPaddings.x1,
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const SizedBox(height: EnumPaddings.x2Half),
+                Container(
+                  width: 80,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: Colors.black87,
+                    borderRadius: BorderRadius.circular(
+                      EnumPaddings.x1,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: EnumPaddings.x3Half),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: EnumPaddings.x4,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            taskModel.title,
-                            style: AppTextStyles.h6.copyWith(
-                              fontWeight: FontWeight.bold,
+                const SizedBox(height: EnumPaddings.x3Half),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: EnumPaddings.x4,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              taskModel.title,
+                              style: AppTextStyles.h6.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        if (taskModel.resolved) ...[
-                          IconButton(
-                            onPressed: () async {
-                              showAlertDialog(
-                                context: context,
-                                onAccept: () async {
-                                  await controller.deleteTask();
+                          if (taskModel.resolved) ...[
+                            GestureDetector(
+                              onTap: () async {
+                                showAlertDialog(
+                                  context: context,
+                                  onAccept: () async {
+                                    await controller.deleteTask();
 
-                                  if (context.mounted) {
-                                    context.pop();
-                                  }
-                                },
-                                title: 'Alerta',
-                                content:
-                                    'Tem certeza que deseja excluir a tarefa?',
-                              );
-                            },
-                            iconSize: 26,
-                            icon: const Icon(
-                              CupertinoIcons.trash_fill,
-                              color: AppColors.error,
+                                    if (context.mounted) {
+                                      context.pop();
+                                    }
+                                  },
+                                  title: 'Alerta',
+                                  content:
+                                      '''Tem certeza que deseja excluir a tarefa?''',
+                                );
+                              },
+                              child: const Icon(
+                                CupertinoIcons.trash_fill,
+                                size: 26,
+                                color: AppColors.error,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              '${taskModel.onlyDate} - ${taskModel.onlyHour}',
+                              style: AppTextStyles.subtitle1.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            '${taskModel.onlyDate} - ${taskModel.onlyHour}',
-                            style: AppTextStyles.subtitle1.copyWith(
-                              fontWeight: FontWeight.bold,
+                      ),
+                      const SizedBox(height: EnumPaddings.x2),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              taskModel.description,
+                              style: AppTextStyles.body1,
                             ),
                           ),
+                        ],
+                      ),
+                      const SizedBox(height: EnumPaddings.x2),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: taskModel.priorityColor.withOpacity(0.3),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: EnumPaddings.x2),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            taskModel.description,
-                            style: AppTextStyles.body1,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: EnumPaddings.x1Half,
+                            horizontal: EnumPaddings.x2Half,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [Text(taskModel.priorityString)],
                           ),
                         ),
+                      ),
+                      if (!taskModel.resolved) ...[
+                        const SizedBox(height: EnumPaddings.x3),
+                        AppPrimaryButton(
+                          label: 'CONCLUIR TAREFA',
+                          onTap: () async {
+                            await controller.endTask();
+
+                            if (context.mounted) {
+                              context.pop();
+
+                              await showDialog<Widget>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return const TaskDoneAnimation();
+                                },
+                              );
+                            }
+                          },
+                        ),
                       ],
-                    ),
-                    const SizedBox(height: EnumPaddings.x2),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: taskModel.priorityColor.withOpacity(0.3),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: EnumPaddings.x1Half,
-                          horizontal: EnumPaddings.x2Half,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [Text(taskModel.priorityString)],
-                        ),
-                      ),
-                    ),
-                    if (!taskModel.resolved) ...[
-                      const SizedBox(height: EnumPaddings.x3),
-                      AppPrimaryButton(
-                        label: 'CONCLUIR TAREFA',
-                        onTap: () async {
-                          await controller.endTask();
-
-                          if (context.mounted) {
-                            context.pop();
-
-                            await showDialog<Widget>(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return const TaskDoneAnimation();
-                              },
-                            );
-                          }
-                        },
-                      ),
+                      const SizedBox(height: EnumPaddings.x6),
                     ],
-                    const SizedBox(height: EnumPaddings.x6),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       );

@@ -110,7 +110,7 @@ class TaskCard extends StatelessWidget {
                     icon: const Icon(Icons.edit),
                     iconSize: 28,
                   ),
-                ]
+                ],
               ],
             ),
           ),
