@@ -34,5 +34,9 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
     ..put(TaskManagerCubit())
     ..put(CalendarCubit());
 
+  Future.delayed(Duration.zero, () async {
+    await Get.find<TaskManagerCubit>().loadTasks();
+  });
+
   runApp(await builder());
 }

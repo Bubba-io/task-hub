@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:task_hub/core/storage/storage.dart';
 import 'package:task_hub/l10n/l10n.dart';
 import 'package:task_hub/modules/task-creation/controller/task_manager_cubit.dart';
 import 'package:task_hub/modules/task-creation/view/widgets/task_card.dart';
@@ -20,17 +19,6 @@ class HomePage extends StatelessWidget {
         return Column(
           children: [
             Text(l10n.homeTitle),
-            GestureDetector(
-              onTap: () async {
-                //await DataStorage().clear();
-                await Get.find<TaskManagerCubit>().loadTasks();
-              },
-              child: Container(
-                width: 100,
-                height: 100,
-                color: Colors.pinkAccent,
-              ),
-            ),
             const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(

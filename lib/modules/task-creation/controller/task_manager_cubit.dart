@@ -65,6 +65,14 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
     emit(state.copyWith(tasks: newList));
   }
 
+  Future<void> deleteTask() async {
+    final newList = state.tasks..removeAt(state.selectedIndex);
+
+    await _storage.delete(state.selectedID);
+
+    emit(state.copyWith(tasks: newList));
+  }
+
   void loadTextEC(TaskModel model, int index) {
     title.text = model.title;
     description.text = model.description;
