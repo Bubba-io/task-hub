@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/instance_manager.dart';
 import 'package:go_router/go_router.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:task_hub/core/enums/enums.dart';
 import 'package:task_hub/core/styles/styles.dart';
 import 'package:task_hub/core/widgets/buttons/app_primary_button.dart';
@@ -22,13 +23,17 @@ Future<void> showTaskManagerModal(
   final formKey = GlobalKey<FormState>();
   final isCreation = type == ManagerModal.creation;
 
-  await showModalBottomSheet<void>(
+  await showMaterialModalBottomSheet<void>(
     context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
     builder: (BuildContext context) {
       return BlocBuilder<TaskManagerCubit, TaskManagerState>(
         bloc: controller,
         builder: (context, state) {
           return Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               const SizedBox(height: EnumPaddings.x2Half),
               Container(
@@ -128,7 +133,7 @@ Future<void> showTaskManagerModal(
                         formKey.currentState?.validate();
                       },
                     ),
-                    const SizedBox(height: EnumPaddings.x3),
+                    const SizedBox(height: EnumPaddings.x6),
                   ],
                 ),
               ),
