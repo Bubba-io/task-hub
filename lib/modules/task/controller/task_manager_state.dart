@@ -3,6 +3,7 @@ part of 'task_manager_cubit.dart';
 class TaskManagerState extends Equatable {
   const TaskManagerState({
     required this.tasks,
+    required this.calendarFilter,
     this.selectedID = '',
     this.filter = 0,
     this.buttonDisabled = true,
@@ -14,6 +15,7 @@ class TaskManagerState extends Equatable {
   final int filter;
   final String selectedID;
   final List<TaskModel> tasks;
+  final DateTime calendarFilter;
 
   TaskManagerState copyWith({
     bool? buttonDisabled,
@@ -21,6 +23,7 @@ class TaskManagerState extends Equatable {
     int? filter,
     String? selectedID,
     List<TaskModel>? tasks,
+    DateTime? calendarFilter,
   }) {
     return TaskManagerState(
       selectedID: selectedID ?? this.selectedID,
@@ -28,6 +31,7 @@ class TaskManagerState extends Equatable {
       filter: filter ?? this.filter,
       buttonDisabled: buttonDisabled ?? this.buttonDisabled,
       tasks: tasks ?? this.tasks,
+      calendarFilter: calendarFilter ?? this.calendarFilter,
     );
   }
 
@@ -38,5 +42,6 @@ class TaskManagerState extends Equatable {
         filter,
         tabSelected,
         tasks,
+        calendarFilter,
       ];
 }

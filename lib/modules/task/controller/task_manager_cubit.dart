@@ -8,7 +8,13 @@ import 'package:task_hub/modules/task/models/models.dart';
 part 'task_manager_state.dart';
 
 class TaskManagerCubit extends Cubit<TaskManagerState> {
-  TaskManagerCubit() : super(const TaskManagerState(tasks: []));
+  TaskManagerCubit()
+      : super(
+          TaskManagerState(
+            tasks: const [],
+            calendarFilter: DateTime.now(),
+          ),
+        );
 
   final TextEditingController title = TextEditingController();
   final TextEditingController description = TextEditingController();
@@ -91,6 +97,10 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
     emit(state.copyWith(tasks: newList));
   }
 
+  void setCalendarFilter(DateTime date) {
+    emit(state.copyWith(calendarFilter: date));
+  }
+
   void setFilter(int filter) {
     emit(state.copyWith(filter: filter));
   }
@@ -98,9 +108,9 @@ class TaskManagerCubit extends Cubit<TaskManagerState> {
   int filter(TaskModel a, TaskModel b) {
     switch (state.filter) {
       case 0:
-        return b.date.compareTo(a.date);
-      case 1:
         return a.date.compareTo(b.date);
+      case 1:
+        return b.date.compareTo(a.date);
       case 2:
         return b.priority.compareTo(a.priority);
       case 3:

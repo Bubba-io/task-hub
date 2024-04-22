@@ -5,19 +5,28 @@ import 'package:task_hub/core/styles/styles.dart';
 class EmptyAnimation extends StatelessWidget {
   const EmptyAnimation({
     required this.resolved,
+    this.alignment,
+    this.imageHeigth,
+    this.paddingValue,
     super.key,
   });
 
   final bool resolved;
+  final AlignmentGeometry? alignment;
+  final double? imageHeigth;
+  final double? paddingValue;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: Alignment.center,
+      alignment: alignment ?? Alignment.center,
       children: [
-        Lottie.asset('assets/animations/ghost.json', height: 300),
+        Lottie.asset(
+          'assets/animations/ghost.json',
+          height: imageHeigth ?? 300,
+        ),
         Padding(
-          padding: const EdgeInsets.only(top: 300),
+          padding: EdgeInsets.only(top: paddingValue ?? 300),
           child: Row(
             children: [
               Expanded(

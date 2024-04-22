@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:task_hub/core/enums/enums.dart';
 import 'package:task_hub/core/styles/styles.dart';
-import 'package:task_hub/modules/home/view/widgets/animations/empty_animation.dart';
+import 'package:task_hub/core/widgets/animations/empty_animation.dart';
 import 'package:task_hub/modules/home/view/widgets/filter_picker.dart';
 import 'package:task_hub/modules/task/controller/task_manager_cubit.dart';
 import 'package:task_hub/modules/task/view/widgets/task_card.dart';

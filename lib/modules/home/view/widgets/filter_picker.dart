@@ -18,8 +18,8 @@ class _FilterPickerState extends State<FilterPicker> {
   final controller = Get.find<TaskManagerCubit>();
 
   final filterList = <String>[
-    'DATA MAIS RECENTE',
     'DATA MAIS ANTIGA',
+    'DATA MAIS RECENTE',
     'MAIOR PRIORIDADE',
     'MENOR PRIORIDADE',
   ];
