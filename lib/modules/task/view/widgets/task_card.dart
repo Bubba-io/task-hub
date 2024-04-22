@@ -1,7 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:task_hub/core/enums/enums.dart';
 import 'package:task_hub/core/styles/styles.dart';
@@ -94,17 +94,38 @@ class TaskCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (!task.resolved) ...[
-                  const SizedBox(width: EnumPaddings.x2),
-                  IconButton(
-                    onPressed: () {
+                const SizedBox(width: EnumPaddings.x2),
+                if (task.resolved) ...[
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: EnumPaddings.x2,
+                      right: EnumPaddings.x1,
+                    ),
+                    child: SvgPicture.asset(
+                      height: 35,
+                      'assets/icons/check-mark.svg',
+                      colorFilter: ColorFilter.mode(
+                        AppColors.black.withOpacity(0.8),
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
+                ] else ...[
+                  GestureDetector(
+                    onTap: () {
                       controller.loadTextEC(task);
 
                       showTaskManagerModal(context, ManagerModal.edition)
                           .then((value) => controller.reset());
                     },
-                    icon: const Icon(Icons.edit),
-                    iconSize: 28,
+                    child: SvgPicture.asset(
+                      height: 35,
+                      'assets/icons/edit.svg',
+                      colorFilter: ColorFilter.mode(
+                        AppColors.black.withOpacity(0.5),
+                        BlendMode.srcIn,
+                      ),
+                    ),
                   ),
                 ],
               ],
@@ -118,34 +139,26 @@ class TaskCard extends StatelessWidget {
   Widget selectIcon() {
     switch (task.priority) {
       case 0:
-        return Transform.rotate(
-          angle: 90 * pi / 180,
-          child: Icon(
-            Icons.double_arrow_rounded,
-            color: task.priorityColor,
-            size: 42,
-          ),
-        );
+        return SvgPicture.asset('assets/icons/lowest.svg', height: 40);
       case 1:
-        return Icon(
-          CupertinoIcons.bars,
-          size: 42,
-          color: task.priorityColor,
+        return SvgPicture.asset(
+          'assets/icons/medium.svg',
+          height: 40,
+          colorFilter: ColorFilter.mode(
+            task.priorityColor,
+            BlendMode.srcIn,
+          ),
         );
       case 2:
-        return Transform.rotate(
-          angle: -90 * pi / 180,
-          child: Icon(
-            Icons.double_arrow_rounded,
-            color: task.priorityColor,
-            size: 42,
-          ),
-        );
+        return SvgPicture.asset('assets/icons/highest.svg', height: 40);
       default:
-        return Icon(
-          CupertinoIcons.bars,
-          size: 42,
-          color: task.priorityColor,
+        return SvgPicture.asset(
+          'assets/icons/medium.svg',
+          height: 40,
+          colorFilter: ColorFilter.mode(
+            task.priorityColor,
+            BlendMode.srcIn,
+          ),
         );
     }
   }

@@ -41,7 +41,10 @@ class _CalendarPageState extends State<CalendarPage> {
             ),
             if (taskFiltered.isNotEmpty) ...[
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: EnumPaddings.x1),
+                padding: EdgeInsets.only(
+                  top: EnumPaddings.x2,
+                  bottom: EnumPaddings.x1,
+                ),
                 child: FilterPicker(),
               ),
               Expanded(
@@ -78,13 +81,15 @@ class _CalendarPageState extends State<CalendarPage> {
     final res = <Appointment>[];
 
     for (final task in state.tasks) {
-      res.add(
-        Appointment(
-          startTime: task.date,
-          endTime: task.date,
-          color: task.priorityColor,
-        ),
-      );
+      if (!task.resolved) {
+        res.add(
+          Appointment(
+            startTime: task.date,
+            endTime: task.date,
+            color: task.priorityColor,
+          ),
+        );
+      }
     }
 
     return res;
@@ -96,10 +101,12 @@ class _CalendarPageState extends State<CalendarPage> {
   ) {
     return state.tasks
         .where(
-          (element) => dateChecker(
-            state.calendarFilter,
-            element.date,
-          ),
+          (element) =>
+              dateChecker(
+                state.calendarFilter,
+                element.date,
+              ) &&
+              !element.resolved,
         )
         .toList()
       ..sort((a, b) => controller.filter(a, b));

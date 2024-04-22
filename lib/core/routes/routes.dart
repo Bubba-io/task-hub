@@ -5,7 +5,7 @@ import 'package:task_hub/modules/calendar/view/calendar.dart';
 import 'package:task_hub/modules/home/view/home_page.dart';
 
 final GoRouter goRouter = GoRouter(
-  initialLocation: EnumRoutes.calendar,
+  initialLocation: EnumRoutes.home,
   routes: <RouteBase>[
     GoRoute(
       path: EnumRoutes.home,

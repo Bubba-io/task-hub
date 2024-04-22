@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:task_hub/core/enums/paddings.dart';
 import 'package:task_hub/core/styles/styles.dart';
 import 'package:task_hub/core/widgets/dialogs/dialogs.dart';
 import 'package:task_hub/modules/task/controller/task_manager_cubit.dart';
@@ -71,11 +72,13 @@ class _FilterPickerState extends State<FilterPicker> {
             'Filtro',
             style: AppTextStyles.body1.copyWith(
               fontWeight: FontWeight.bold,
+              color: AppColors.black.withOpacity(0.7),
             ),
           ),
-          const Icon(
-            Icons.filter_alt_outlined,
-            size: 32,
+          const SizedBox(width: EnumPaddings.x1),
+          SvgPicture.asset(
+            height: 24,
+            'assets/icons/filter.svg',
           ),
         ],
       ),

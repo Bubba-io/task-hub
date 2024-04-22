@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/instance_manager.dart';
 import 'package:go_router/go_router.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -78,10 +79,13 @@ Future<void> showTaskViewModal(
                                       '''Tem certeza que deseja excluir a tarefa?''',
                                 );
                               },
-                              child: const Icon(
-                                CupertinoIcons.trash_fill,
-                                size: 26,
-                                color: AppColors.error,
+                              child: SvgPicture.asset(
+                                height: 28,
+                                'assets/icons/delete.svg',
+                                colorFilter: const ColorFilter.mode(
+                                  AppColors.error,
+                                  BlendMode.srcIn,
+                                ),
                               ),
                             ),
                           ],
@@ -126,7 +130,7 @@ Future<void> showTaskViewModal(
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: taskModel.priorityColor.withOpacity(0.3),
+                          color: taskModel.priorityColor.withOpacity(0.1),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
@@ -135,7 +139,15 @@ Future<void> showTaskViewModal(
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: [Text(taskModel.priorityString)],
+                            children: [
+                              Text(
+                                taskModel.priorityString,
+                                style: AppTextStyles.body1.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: taskModel.priorityColor,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
